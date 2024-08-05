@@ -3,8 +3,6 @@
     @php
         $menuItems = [
             ['lable'=>'Home', 'path'=>'/'],
-            ['lable'=>'Product', 'path'=>'/product'],
-            ['lable'=>'Profile', 'path'=>'/profile'],
         ];
     @endphp
     <nav class="bg-white  px-4 lg:px-6 pb-2.5  fxed top-0 border-b-[1.5px] border-black h-[61px] overflow-hidden">
@@ -59,23 +57,30 @@
                         <a href={{$item['path']}} class="block py-2 pr-4 pl-3 text-black rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 " aria-current="page">{{$item['lable']}}</a>
                     </li>
                     @endforeach
-                    <li class="flex justify-center items-center">
-                        <a href='/cart' class=" py-2 pr-4 pl-3 text-black  rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 " aria-current="page">
-                            <svg 
-                            class="w-5"
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
-                        </a>
+                    @if (Gate::allows('isAdmin'))
+                    <li>
+                        <a href={{route('adminDashBord')}} class="block py-2 pr-4 pl-3 text-black rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 " aria-current="page">Admin DashBord</a>
                     </li>
+                    @else
+                    <li>
+                        <a href='#' class="block py-2 pr-4 pl-3 text-black rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 " aria-current="page">DashBord</a>
+                    </li>
+                    @endif
+                    
+                   
                 </ul>
                 @if (!Auth::check())
                 <a href="{{route('login')}}" class=" font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 border-[1px] border-black text-white bg-black ">Log in</a>
-                @endif
+
+                @else
                 @if (Auth::user()->role == 'Student')
                 <a href="#" class=" font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 border-[1px] border-black text-white bg-black ">Verify as a student</a>
                 @endif
                 @if (Auth::user()->role == 'Teacher')
                 <a href="#" class=" font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 border-[1px] border-black text-white bg-black ">Verify as a teacher</a>
                 @endif
+                @endif
+                
 
                 
             </div>
@@ -91,17 +96,17 @@
                     <a href={{$item['path']}} class="block py-2 pr-4 pl-3 text-gray-200 rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 " aria-current="page">{{$item['lable']}}</a>
                 </li>
                 @endforeach
-                <li class="flex justify-center items-center">
-                    <a href='/cart' class=" py-2 pr-4 pl-3 text-gray-200  rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 " aria-current="page">
-                        <svg 
-                        class="w-5"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
-                    </a>
-                </li>
+                
             </ul>
             @if (!Auth::check())
             <a href="{{route('login')}}" class=" font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 border-[1px] border-gray-200 text-black/[0.8] bg-gray-200 ">Log in</a>
+            @else
+            @if (Auth::user()->role == 'Student')
+            <a href="#" class=" font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 border-[1px] border-gray-200 text-black/[0.8] bg-gray-200 ">Verify as a student</a>
+            @endif
+            @if (Auth::user()->role == 'Teacher')
+            <a href="#" class=" font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 border-[1px] border-gray-200 text-black/[0.8] bg-gray-200">Verify as a teacher</a>
+            @endif
             @endif
             
         </div>
@@ -124,5 +129,6 @@
             document.getElementById('close-icon').classList.add('block');
         });
     </script>
+    
     
 </header>
